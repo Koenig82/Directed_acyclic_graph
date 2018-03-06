@@ -31,7 +31,7 @@ type WeightUnit interface {
 func (dag *DAG) Add_vertex(weight WeightUnit) int{
 	newVertex := vertex{dag.idCount, weight}
 	if dag.vertices == nil {
-    	dag.vertices = make(map[int]vertex)
+    		dag.vertices = make(map[int]vertex)
 	}
 	dag.vertices[dag.idCount] = newVertex
 	dag.idCount++
@@ -43,12 +43,12 @@ func (dag *DAG) Add_edge(a int, b int, w WeightUnit) error{
 	var va vertex
 	var vb vertex
 	if val, ok := dag.vertices[a]; ok {
-    	va = val
+    		va = val
 	}else{
 		return fmt.Errorf("Add_edge: Node A does not exist")
 	}
 	if val, ok := dag.vertices[b]; ok {
-    	vb = val
+    		vb = val
 	} else {
 		return fmt.Errorf("Add_edge: Node B does not exist")
 	}	
