@@ -144,7 +144,7 @@ func (dag *DAG) Show_DAG() error{
 	return nil
 }
 
-func (dag *DAG) Weight_of_longest_path(a int, b int) (string, error) {
+func (dag *DAG) Weight_of_longest_path(a int, b int, f func(WeightUnit) WeightUnit, g func(WeightUnit) WeightUnit) (string, error) {
 
 	var distances map[int]WeightUnit
 	var postAddWeightToId map[int]bool
@@ -165,9 +165,9 @@ func (dag *DAG) Weight_of_longest_path(a int, b int) (string, error) {
 		//Do following for every adjacent vertex v of u
 		for _, e := range dag.edges{
 			//if (dist[v] < dist[u] + weight(u, v))
-			if e.b.id == u && distances[u].LessThan(distances[e.a.id].AddWeight(e.a.weight.AddWeight(e.weight))) {
+			if e.b.id == u && distances[u].LessThan(distances[e.a.id].AddWeight(f(e.a.weight).AddWeight(g(e.weight)))) {
 				//dist[v] = dist[u] + weight(u, v)
-				distances[u] = (distances[e.a.id].AddWeight(e.a.weight.AddWeight(e.weight)))
+				distances[u] = (distances[e.a.id].AddWeight(f(e.a.weight).AddWeight(g(e.weight))))
 				postAddWeightToId[u] = true
 			}
 		}

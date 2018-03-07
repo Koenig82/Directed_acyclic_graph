@@ -71,6 +71,10 @@ func (w charWeight) EqualTo(x dag.WeightUnit) bool {
 	return w.GetWeightAsInt() == x.GetWeightAsInt()
 }
 
+func GetWeightUnit(wu dag.WeightUnit) dag.WeightUnit{
+	return wu
+}
+
 func main() {
 	fmt.Println("Creating DAG")
 	newDag := dag.DAG{}
@@ -143,7 +147,7 @@ func main() {
 		fmt.Println(ordering)
 	}
 	
-	if longest, err := newDag.Weight_of_longest_path(vert0, vert4); err != nil {
+	if longest, err := newDag.Weight_of_longest_path(vert0, vert4, GetWeightUnit, GetWeightUnit); err != nil {
     	fmt.Println(err)
 	}else{
 		fmt.Printf("Weight of the longest path between vertex %d and %d = %s\n",vert0, vert4, longest)
@@ -161,7 +165,7 @@ func main() {
 	f := newDag2.Add_vertex(charWeight{"c"})
 	fmt.Println(a, b, c, d, e, f)
 
-	fmt.Println("Adding the following edges with different char ids:")
+	fmt.Println("Adding the following edges with different char weights:")
 	fmt.Println(a,"->",b)
 	fmt.Println(a,"->",c)
 	fmt.Println(b,"->",d)
@@ -203,7 +207,7 @@ func main() {
 		fmt.Println(ordering)
 	}
 
-	if longest, err := newDag2.Weight_of_longest_path(a, f); err != nil {
+	if longest, err := newDag2.Weight_of_longest_path(a, f, GetWeightUnit, GetWeightUnit); err != nil {
     	fmt.Println(err)
 	}else{
 		fmt.Printf("Weight of the longest path between vertex %d and %d = %s\n",a, f, longest)
