@@ -2,6 +2,8 @@ package dag
 
 import "fmt"
 
+/*Exported struct DAG. This struct is associated
+with all functions in this package*/
 type DAG struct {
 	idCount int
 	vertices map[int]vertex
@@ -17,7 +19,10 @@ type edge struct {
 	weight WeightUnit
 }
 
-
+/*interface needed to define what type of weight
+a dag is using for vertices and edges. The weight
+type must be able to be extracted as a string,
+added/subtracted and compared*/
 type WeightUnit interface {
 	GetWeightAsInt() int
 	ShowWeightVal() string
@@ -28,6 +33,9 @@ type WeightUnit interface {
 	EqualTo(x WeightUnit) bool
 }
 
+/*Adds a vertex to the dag. The dag returns an
+identifying integer assigned by the dag to the
+caller.*/
 func (dag *DAG) Add_vertex(weight WeightUnit) int{
 	newVertex := vertex{dag.idCount, weight}
 	if dag.vertices == nil {
@@ -38,6 +46,9 @@ func (dag *DAG) Add_vertex(weight WeightUnit) int{
 	return newVertex.id
 }
 
+/*Adds an edge between two vertices in the dag.
+Both vertices must exist and the new edge cannot
+create a cycle in the dag or the edge is rejected.*/
 func (dag *DAG) Add_edge(a int, b int, w WeightUnit) error{
 	
 	var va vertex
@@ -63,7 +74,11 @@ func (dag *DAG) Add_edge(a int, b int, w WeightUnit) error{
 	}	
 }
 
-
+/*Performs a topological ordering of all vertices in
+the dag. The function builds up a temporary graph
+which is consumed using kahns algorithm for
+topological sorting. A nil value is returned if the
+DAG has a cycle*/
 func (dag *DAG) Topological_ordering() ([]int, error){
 
 	//get starting nodes and a graph
@@ -118,6 +133,7 @@ func (dag *DAG) Topological_ordering() ([]int, error){
 	}
 }
 
+/*Presents the dag to the user*/
 func (dag *DAG) Show_DAG() error{
 
 	if len(dag.vertices) < 1 {
@@ -144,6 +160,14 @@ func (dag *DAG) Show_DAG() error{
 	return nil
 }
 
+/*Calculates the longest path between 2 vertices.
+The int values in the arguments are the two
+vertices and two identical functions that
+returns a WeightUnit from that WeightUnit
+(This is done to demonstrate passing functions
+as arguments and not really neccessary. The
+WeightUnit can be extracted through the
+interface)*/
 func (dag *DAG) Weight_of_longest_path(a int, b int, f func(WeightUnit) WeightUnit, g func(WeightUnit) WeightUnit) (string, error) {
 
 	var distances map[int]WeightUnit
