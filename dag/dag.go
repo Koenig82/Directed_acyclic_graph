@@ -162,7 +162,7 @@ func (dag *DAG) Show_DAG() error{
 
 /*Calculates the longest path between 2 vertices.
 The int values in the arguments are the two
-vertices and two identical functions that
+vertices and f & g are two identical functions that
 returns a WeightUnit from that WeightUnit
 (This is done to demonstrate passing functions
 as arguments and not really neccessary. The
